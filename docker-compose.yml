@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres
+    restart: unless-stopped
+    env_file:
+      - .env.dev
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - board_dev_db_data:/var/lib/postgresql/data
+      - ./dev-database/backup:/tmp/backup
+      - ./dev-database/init.sh:/docker-entrypoint-initdb.d/init.sh
+    ports:
+      - 5435:5432
+  djrf:
+    container_name: djrf
+    build: .
+    env_file:
+      - .env.dev
+    ports:
+      - 8000:8000
+
+
+volumes:
+  board_dev_db_data:
