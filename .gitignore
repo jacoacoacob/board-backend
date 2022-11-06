@@ -8,7 +8,7 @@ __pycache__
 
 media
 fixtures
-stbcms/static
+static
 
 dev-database/*
 !dev-database/init.sh

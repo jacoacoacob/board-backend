@@ -24,6 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Rest Framework
 
 REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 10,
 }
@@ -32,9 +35,13 @@ REST_FRAMEWORK = {
 # Application definition
 
 INSTALLED_APPS = [
-    "api",
+    "users",
+    "issues",
     
+    "corsheaders",
     "rest_framework",
+    "rest_framework_simplejwt",
+    "rest_framework_simplejwt.token_blacklist",
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,6 +52,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -85,6 +94,13 @@ DATABASES = {
         "CONN_HEALTH_CHECKS": True,
     }
 }
+
+# Custom User Model (so we can have id as uuid instead of integer)
+AUTH_USER_MODEL = "users.CustomUser"
+
+
+# CORS
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 # Password validation
