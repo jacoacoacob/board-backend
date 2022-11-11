@@ -1,8 +1,8 @@
 from rest_framework import generics, permissions
 
-from .models import Issue
-from .serializers import IssueSerializer
-from .permissions import IsOwnerOrReadOnly
+from ..models import Issue
+from ..serializers import IssueSerializer
+from ..permissions import IsOwnerOrReadOnly
 
 
 class IssueList(generics.ListCreateAPIView):
