@@ -1,14 +1,9 @@
-from rest_framework import generics
+from core.views import DynamicDepthReadOnlyModelViewSet
 
 from .models import CustomUser
 from .serializers import CustomUserSerializer
 
 
-class UserList(generics.ListAPIView):
-  queryset = CustomUser.objects.all()
-  serializer_class = CustomUserSerializer
-
-
-class UserDetail(generics.RetrieveAPIView):
+class UserViewSet(DynamicDepthReadOnlyModelViewSet):
   queryset = CustomUser.objects.all()
   serializer_class = CustomUserSerializer

@@ -6,7 +6,8 @@ from .models import Issue, IssueComment
 
 
 class IssueSerializer(DynamicDepthModelSerializer):
-  owner = serializers.ReadOnlyField(source="owner.username")
+  owner_id = serializers.ReadOnlyField(source="owner.id")
+  owner_username = serializers.ReadOnlyField(source="owner.username")
   
   class Meta:
     model = Issue
@@ -16,14 +17,16 @@ class IssueSerializer(DynamicDepthModelSerializer):
       "created",
       "updated",
       "title",
-      "owner",
-      "comments"
+      "comments",
+      "owner_id",
+      "owner_username",
     ]
 
 
 
 class IssueCommentSerializer(DynamicDepthModelSerializer):
-  owner = serializers.ReadOnlyField(source="owner.username")
+  owner_id = serializers.ReadOnlyField(source="owner.id")
+  owner_username = serializers.ReadOnlyField(source="owner.username")
   
   class Meta:
     model = IssueComment
@@ -34,5 +37,6 @@ class IssueCommentSerializer(DynamicDepthModelSerializer):
       "updated",
       "body",
       "issue",
-      "owner"
+      "owner_id",
+      "owner_username",
     ]
