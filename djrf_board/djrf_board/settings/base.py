@@ -35,6 +35,7 @@ REST_FRAMEWORK = {
 # Application definition
 
 INSTALLED_APPS = [
+    "core",
     "users",
     "issues",
     

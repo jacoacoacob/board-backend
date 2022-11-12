@@ -1,10 +1,12 @@
 from rest_framework import generics, permissions
 
+from core.views import DynamicDepthView
+
 from ..models import IssueComment
 from ..serializers import IssueCommentSerializer
 
 
-class IssueCommentList(generics.ListCreateAPIView):
+class IssueCommentList(generics.ListCreateAPIView, DynamicDepthView):
   queryset = IssueComment.objects.all()
   serializer_class = IssueCommentSerializer
   permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -13,8 +15,7 @@ class IssueCommentList(generics.ListCreateAPIView):
     serializer.save(owner=self.request.user)
 
 
-
-class IssueCommentDetail(generics.RetrieveUpdateDestroyAPIView):
+class IssueCommentDetail(generics.RetrieveUpdateDestroyAPIView, DynamicDepthView):
   queryset = IssueComment.objects.all()
   serializer_class = IssueCommentSerializer
   permission_classes = [permissions.IsAuthenticatedOrReadOnly]

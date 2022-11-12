@@ -1,14 +1,16 @@
 from rest_framework import serializers
 
+from core.serializers import DynamicDepthModelSerializer
+
 from .models import Issue, IssueComment
 
 
-class IssueSerializer(serializers.ModelSerializer):
+class IssueSerializer(DynamicDepthModelSerializer):
   owner = serializers.ReadOnlyField(source="owner.username")
   
   class Meta:
     model = Issue
-    depth = 1
+    max_depth = 1
     fields = [
       "id",
       "created",
@@ -20,9 +22,12 @@ class IssueSerializer(serializers.ModelSerializer):
 
 
 
-class IssueCommentSerializer(serializers.ModelSerializer):
+class IssueCommentSerializer(DynamicDepthModelSerializer):
+  owner = serializers.ReadOnlyField(source="owner.username")
+  
   class Meta:
     model = IssueComment
+    max_depth = 1
     fields = [
       "id",
       "created",
