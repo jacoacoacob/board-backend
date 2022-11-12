@@ -3,6 +3,22 @@ from django.db import models
 from django.conf import settings
 
 
+class Issue(models.Model):
+  created = models.DateTimeField(auto_now_add=True)
+  updated = models.DateTimeField(auto_now=True)
+  title = models.CharField(max_length=500)
+  owner = models.ForeignKey(
+    settings.AUTH_USER_MODEL,
+    null=True,
+    blank=True,
+    related_name="issues",
+    on_delete=models.SET_NULL
+  )
+
+  class Meta:
+    ordering = ("updated",)
+
+
 class IssueComment(models.Model):
   id = models.UUIDField(primary_key=True, default=uuid.uuid4)
   created = models.DateTimeField(auto_now_add=True)
@@ -20,22 +36,19 @@ class IssueComment(models.Model):
     related_name="comments",
     on_delete=models.SET_NULL
   )
-
-  class Meta:
-    ordering = ("updated",)
-
-
-
-class Issue(models.Model):
-  created = models.DateTimeField(auto_now_add=True)
-  updated = models.DateTimeField(auto_now=True)
-  title = models.CharField(max_length=500)
-  owner = models.ForeignKey(
+  mentioned_users = models.ManyToManyField(
     settings.AUTH_USER_MODEL,
-    null=True,
     blank=True,
-    related_name="issues",
-    on_delete=models.SET_NULL
+    related_name="mentioned_in",
+  )
+  mentioned_issues = models.ManyToManyField(
+    "issues.Issue",
+    blank=True,
+    related_name="mentioned_in"
+  )
+  mentioned_comments = models.ManyToManyField(
+    "self",
+    blank=True
   )
 
   class Meta:

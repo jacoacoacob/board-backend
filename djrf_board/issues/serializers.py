@@ -37,6 +37,9 @@ class IssueCommentSerializer(DynamicDepthModelSerializer):
       "updated",
       "body",
       "issue",
+      "mentioned_users",
+      "mentioned_issues",
+      "mentioned_comments",
       "owner_id",
       "owner_username",
     ]
