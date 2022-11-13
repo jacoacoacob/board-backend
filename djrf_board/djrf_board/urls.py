@@ -18,14 +18,19 @@ from django.urls import path, include
 
 from rest_framework.routers import DefaultRouter
 
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenBlacklistView
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+    TokenBlacklistView,
+)
 
-from issues.views import IssueViewSet, IssueCommentViewSet
+from issues.views import IssueViewSet, IssueCommentViewSet, IssueLabelViewSet
 from users.views import UserViewSet
 
 router = DefaultRouter()
 router.register(r"issues", IssueViewSet, basename="issue")
 router.register(r"issue_comments", IssueCommentViewSet, basename="issue-comment")
+router.register(r"issue_labels", IssueLabelViewSet, basename="issue-label")
 router.register(r"users", UserViewSet, basename="user")
 
 urlpatterns = [

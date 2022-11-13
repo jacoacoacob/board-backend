@@ -53,3 +53,27 @@ class IssueComment(models.Model):
 
   class Meta:
     ordering = ("updated",)
+
+
+
+class IssueLabel(models.Model):
+  id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+  created = models.DateTimeField(auto_now_add=True)
+  updated = models.DateTimeField(auto_now=True)
+  name = models.CharField(max_length=140, unique=True)
+  description = models.TextField(blank=True)
+  owner = models.ForeignKey(
+    settings.AUTH_USER_MODEL,
+    null=True,
+    blank=True,
+    related_name="+",
+    on_delete=models.SET_NULL
+  )
+  issues = models.ManyToManyField(
+    "issues.Issue",
+    blank=True,
+    related_name="labels"
+  )
+  
+  class Meta:
+    ordering = ("name",)
