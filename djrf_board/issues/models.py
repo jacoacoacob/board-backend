@@ -55,7 +55,6 @@ class IssueComment(models.Model):
     ordering = ("updated",)
 
 
-
 class IssueLabel(models.Model):
   id = models.UUIDField(primary_key=True, default=uuid.uuid4)
   created = models.DateTimeField(auto_now_add=True)

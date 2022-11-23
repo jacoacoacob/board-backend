@@ -18,12 +18,6 @@ from django.urls import path, include
 
 from rest_framework.routers import DefaultRouter
 
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-    TokenBlacklistView,
-)
-
 from issues.views import IssueViewSet, IssueCommentViewSet, IssueLabelViewSet
 from users.views import UserViewSet
 
@@ -35,8 +29,6 @@ router.register(r"users", UserViewSet, basename="user")
 
 urlpatterns = [
     path("api/", include(router.urls)),
-    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path("api/token/revoke", TokenBlacklistView.as_view(), name="token_revoke"),
+    path("api/auth/", include("custom_auth.urls")),
     path('admin/', admin.site.urls),
 ]
