@@ -1,9 +1,23 @@
-from core.views import DynamicDepthReadOnlyModelViewSet
+from rest_framework.permissions import AllowAny
+
+from core.views import DynamicDepthModelViewSet
 
 from .models import CustomUser
-from .serializers import CustomUserSerializer
+from .permissions import IsSelf
+from .serializers import CreateUpdateUserSerializer, ListUserSerializer, RetrieveDestroyUserSerializer
 
 
-class UserViewSet(DynamicDepthReadOnlyModelViewSet):
+class UserViewSet(DynamicDepthModelViewSet):
   queryset = CustomUser.objects.all()
-  serializer_class = CustomUserSerializer
+
+  def get_permissions(self):
+    if self.action in ("create", "list"):
+      return [AllowAny()]
+    return [IsSelf()]
+
+  def get_serializer_class(self, *args, **kwargs):
+    if self.action in ("create", "update", "partial_update"):
+      return CreateUpdateUserSerializer
+    if self.action == "list":
+      return ListUserSerializer
+    return RetrieveDestroyUserSerializer

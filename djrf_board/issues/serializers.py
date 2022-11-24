@@ -11,7 +11,7 @@ class IssueSerializer(DynamicDepthModelSerializer):
   
   class Meta:
     model = Issue
-    max_depth = 1
+    max_depth=3
     fields = [
       "id",
       "created",
@@ -30,7 +30,6 @@ class IssueCommentSerializer(DynamicDepthModelSerializer):
   
   class Meta:
     model = IssueComment
-    max_depth = 1
     fields = [
       "id",
       "created",
