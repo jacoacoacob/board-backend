@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 
 from rest_framework import serializers, validators
@@ -20,14 +21,33 @@ class CreateUpdateUserSerializer(serializers.ModelSerializer):
     validators=[validate_password]
   )
   password_confirm = serializers.CharField(write_only=True, required=True)
+  password_current = serializers.CharField(write_only=True, required=False)
 
   class Meta:
     model = CustomUser
-    fields = ["username", "email", "password", "password_confirm"]
+    fields = [
+      "username",
+      "email",
+      "password",
+      "password_confirm",
+      "password_current"
+    ]
 
   def validate(self, attrs):
-    if attrs.get("password") != attrs.get("password_confirm"):
-      raise serializers.ValidationError({ "password": "Password fields did not match." })
+    pw = attrs.get("password")
+    pw_confirm = attrs.get("password_confirm")
+    pw_current = attrs.get("password_current")
+    if pw != pw_confirm:
+      raise serializers.ValidationError({
+        "password": "Password fields did not match."
+      })
+    if pw_current and not authenticate(
+      username=self.instance.username,
+      password=pw_current
+    ):
+      raise serializers.ValidationError({
+        "password_current": "No valid account found with the provided credentials",
+      })
     return super().validate(attrs)
 
   def create(self, validated_data):
@@ -40,22 +60,27 @@ class CreateUpdateUserSerializer(serializers.ModelSerializer):
     return user
 
   def update(self, instance, validated_data):
-    instance.email = validated_data.get("email", instance.email)
-    instance.username = validated_data.get("username", instance.username)
     new_password = validated_data.get("password")
     if new_password:
-      instance.set_password(new_password)
+      authenticated = authenticate(
+        username=instance.username,
+        password=validated_data.get("password_current")
+      )
+      if authenticated:
+        instance.set_password(new_password)
+    instance.email = validated_data.get("email", instance.email)
+    instance.username = validated_data.get("username", instance.username)
     instance.save()
     return instance
 
 
-class ListUserSerializer(DynamicDepthModelSerializer):
+class ListUserSeralizer(DynamicDepthModelSerializer):
   class Meta:
     model = CustomUser
     fields = ["id", "username", "issues", "comments"]
 
 
-class RetrieveDestroyUserSerializer(DynamicDepthModelSerializer):
+class DetailUserSerializer(DynamicDepthModelSerializer):
   class Meta:
     model = CustomUser
     fields = ["id", "username", "issues", "comments", "email"]
