@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "jwt_auth",
     "users",
     "issues",
+    "spaces",
     
     "corsheaders",
     "rest_framework",

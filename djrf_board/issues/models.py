@@ -10,9 +10,14 @@ class Issue(models.Model):
   owner = models.ForeignKey(
     settings.AUTH_USER_MODEL,
     null=True,
-    blank=True,
-    related_name="issues",
-    on_delete=models.SET_NULL
+    related_name="user_issues",
+    on_delete=models.SET_NULL,
+  )
+  space = models.ForeignKey(
+    "spaces.Space",
+    null=True,
+    related_name="space_issues",
+    on_delete=models.SET_NULL,
   )
 
   class Meta:
