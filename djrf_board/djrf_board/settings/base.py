@@ -36,7 +36,7 @@ REST_FRAMEWORK = {
 
 INSTALLED_APPS = [
     "core",
-    "jwt_auth",
+    "custom_auth",
     "users",
     "issues",
     "spaces",
