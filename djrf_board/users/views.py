@@ -29,9 +29,6 @@ class UserViewSet(DynamicDepthModelViewSet):
       return DetailUserSerializer if is_instance_self else ListUserSeralizer
 
   def get_serializer(self, *args, **kwargs):
-    for group in self.request.user.groups.all():
-      print(group.name, group.permissions.all())
-    print(self.request.user.has_perm(""))
     serializer_class = self.get_serializer_class(
       is_instance_self=kwargs.pop("is_instance_self", False)
     )

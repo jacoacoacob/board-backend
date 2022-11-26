@@ -1,11 +1,9 @@
-from django.contrib.auth.password_validation import validate_password
-
-from rest_framework import serializers
-from rest_framework.validators import UniqueValidator
+from django.contrib.auth.models import Group, Permission
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from users.models import CustomUser
+from rest_framework.serializers import ModelSerializer
+from core.serializers import DynamicDepthModelSerializer
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -15,3 +13,17 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     # add custom claims
     token["username"] = user.username
     return token
+
+
+class GroupSerializer(DynamicDepthModelSerializer):
+  class Meta:
+    model = Group
+    fields = "__all__"
+
+
+class PermissionSerializer(DynamicDepthModelSerializer):
+  class Meta:
+    model = Permission
+    fields = "__all__"
+    
+
