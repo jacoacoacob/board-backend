@@ -77,10 +77,18 @@ class CreateUpdateUserSerializer(serializers.ModelSerializer):
 class ListUserSeralizer(DynamicDepthModelSerializer):
   class Meta:
     model = CustomUser
-    fields = ["id", "username", "user_issues", "comments"]
+    fields = ["id", "username", "issues", "comments"]
 
 
 class DetailUserSerializer(DynamicDepthModelSerializer):
   class Meta:
     model = CustomUser
-    fields = ["id", "username", "user_issues", "comments", "email"]
+    fields = [
+      "id",
+      "username",
+      "issues",
+      "comments",
+      "email",
+      "mentioned_in",
+      "owned_spaces",
+    ]

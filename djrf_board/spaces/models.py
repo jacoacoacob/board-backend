@@ -8,10 +8,16 @@ class Space(models.Model):
   created = models.DateTimeField(auto_now_add=True)
   updated = models.DateTimeField(auto_now=True)
   name = models.CharField(max_length=500)
+  is_public = models.BooleanField(default=False)
   owner = models.ForeignKey(
     settings.AUTH_USER_MODEL,
     null=True,
     blank=True,
-    related_name="issues",
+    related_name="owned_spaces",
     on_delete=models.SET_NULL
+  )
+  members = models.ManyToManyField(
+    settings.AUTH_USER_MODEL,
+    blank=True,
+    related_name="spaces"
   )

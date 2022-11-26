@@ -14,10 +14,7 @@ from .serializers import (
 class IssueViewSet(DynamicDepthModelViewSet):
   queryset = Issue.objects.all()
   serializer_class = IssueSerializer
-  permission_classes = [
-    permissions.IsAuthenticatedOrReadOnly,
-    permissions.IsAdminUser
-  ]
+  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
   def perform_create(self, serializer):
     serializer.save(owner=self.request.user)
