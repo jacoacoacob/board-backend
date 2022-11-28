@@ -21,6 +21,12 @@ class GroupViewSet(DynamicDepthReadOnlyModelViewSet):
 
 
 class PermissionViewSet(DynamicDepthReadOnlyModelViewSet):
-  queryset = Permission.objects.all()
+  queryset = Permission.objects.filter(
+    content_type__app_label__in=(
+      "issues",
+      "users",
+      "spaces",
+      "auth"
+    )
+  )
   serializer_class = PermissionSerializer
-  

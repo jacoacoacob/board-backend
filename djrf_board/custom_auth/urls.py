@@ -11,7 +11,6 @@ router.register(r"groups", GroupViewSet, basename="groups")
 router.register(r"permissions", PermissionViewSet, basename="permissions")
 
 
-
 urlpatterns = [
   path("token/", CustomObtainTokenPairView.as_view(), name="auth-token-obtain-pair"),
   path("token/refresh", TokenRefreshView.as_view(), name="auth-token-refresh"),

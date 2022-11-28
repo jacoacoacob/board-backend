@@ -1,9 +1,11 @@
-from rest_framework.permissions import BasePermission, IsAuthenticated
+from rest_framework import permissions
 
 
-class IsSpacePublicOrIsUserMember(BasePermission):
+class PublicOrMemberReadOnly(permissions.BasePermission):
   def has_object_permission(self, request, view, obj):
-    if obj.is_public:
-      return True
-    return request.user in obj.members
+    if request.method in permissions.SAFE_METHODS:
+      if obj.is_public:
+        return True
+      return request.user in obj.members
+    return False
 

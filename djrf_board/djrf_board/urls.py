@@ -20,12 +20,14 @@ from rest_framework.routers import DefaultRouter
 
 from issues.views import IssueViewSet, IssueCommentViewSet, IssueLabelViewSet
 from users.views import UserViewSet
+from spaces.views import SpaceViewSet
 
 router = DefaultRouter()
 router.register(r"issues", IssueViewSet, basename="issue")
 router.register(r"issue_comments", IssueCommentViewSet, basename="issue-comment")
 router.register(r"issue_labels", IssueLabelViewSet, basename="issue-label")
 router.register(r"users", UserViewSet, basename="user")
+router.register(r"spaces", SpaceViewSet, basename="spaces")
 
 urlpatterns = [
     path("api/", include(router.urls)),
