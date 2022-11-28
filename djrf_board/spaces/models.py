@@ -30,7 +30,7 @@ class SpaceMember(models.Model):
     settings.AUTH_USER_MODEL,
     null=True,
     related_name="space_memberships",
-    on_delete=models.SET_NULL
+    on_delete=models.CASCADE
   )
   space = models.ForeignKey(
     "spaces.Space",

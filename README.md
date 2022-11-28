@@ -5,9 +5,11 @@ Something combining elements of GitHub Issues, Discord, and other similar apps.
 
 ## Application Entity Comparisons
 
-| discord   | issues          |
-| ---       | ---             |
-| `Server`  | `Space`         |
-| `User`    | `User`          |
-| `Channel` | `Issue`         |
-| `Message` | `Issue Comment` |
+| this app         | discord   |
+| ---              | ---       |
+| `Org`            | `-`       |
+| `Space`          | `Server`  |
+| `User`           | `User`    |
+| `Issue`          | `Channel` |
+| `Issue Comment`  | `Message` |
+
