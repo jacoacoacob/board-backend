@@ -6,22 +6,42 @@ from users.models import CustomUser
 
 from .models import Space, SpaceMember
 
+class SpaceMemberSerializer(DynamicDepthModelSerializer):
+  user = serializers.PrimaryKeyRelatedField(
+    queryset=CustomUser.objects.all(),
+  )
+
+  class Meta:
+    model = SpaceMember
+    fields = [
+      "created",
+      "groups",
+      "id",
+      "is_superuser",
+      "updated",
+      "user",
+      "user_alias",
+      "space",
+    ]
+
 
 class SpaceSerializer(DynamicDepthModelSerializer):
+  members = SpaceMemberSerializer(many=True, required=False)
   owner = serializers.PrimaryKeyRelatedField(
     queryset=CustomUser.objects.all(),
   )
 
   class Meta:
     model = Space
+    max_depth = 3
     fields = [
-      "name",
-      "id",
       "created",
-      "updated",
-      "owner",
+      "id",
       "is_public",
       "members",
+      "name",
+      "owner",
+      "updated",
     ]
     read_only_fields = ["members"]
     validators = [
@@ -30,3 +50,4 @@ class SpaceSerializer(DynamicDepthModelSerializer):
         fields=("name", "owner")
       )
     ]
+

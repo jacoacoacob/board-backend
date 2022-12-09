@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     "core",
     "custom_auth",
     "users",
-    "issues",
+    "orgs",
     "spaces",
+    "issues",
     
     "corsheaders",
     "rest_framework",

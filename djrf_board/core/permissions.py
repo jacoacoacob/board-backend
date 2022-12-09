@@ -26,3 +26,18 @@ class IsAdminOrReadOnly(BasePermission):
       request.user.is_authenticated and
       request.user.is_admin
     )
+
+
+
+class PublicOrMemberReadOnly(BasePermission):
+  """
+  Allow read-only access to object if
+  ```
+  obj.is_public == True or request.user in obj.members
+  ```
+  """
+  def has_object_permission(self, request, view, obj):
+    if request.method in SAFE_METHODS:
+      return obj.is_public or request.user in obj.members
+    return False
+
